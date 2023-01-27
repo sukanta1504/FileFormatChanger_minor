@@ -4,8 +4,9 @@ from moviepy.editor import *
 from proglog import ProgressBarLogger
 from pytube import YouTube
 from pytube import Playlist
-from zipfile import ZipFile
+import zipfile
 from PIL import Image
+import shutil
 import requests
 import pytesseract
 import os
@@ -230,15 +231,17 @@ with st.container():
 with st.container():
     st.header("Convert Image to text")
     file = st.file_uploader("Upload your image file here")
-    if (file):
+    if(file):
         with open(file.name, 'wb') as s:
             s.write(file.read())
-
-        pytesseract.pytesseract.tesseract_cmd = "tesseract.exe"
+        with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
+            T.extractall(path=os.getcwd() + "/tesseract")
+        pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
         image = Image.open(file.name)
-        text = pytesseract.image_to_string(image, lang='eng')
+        txt = pytesseract.image_to_string(image, lang='eng')
         st.success("Conversion successfull")
-        st.code(text, language="Python")
+        st.code(txt, language="Python")
+        shutil.rmtree(os.getcwd() + "/tesseract")
         os.remove(file.name)
 
 
