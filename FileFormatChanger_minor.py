@@ -242,7 +242,7 @@ with st.container():
         txt = pytesseract.image_to_string(image, lang='eng')
         st.success("Conversion successfull")
         st.code(txt)
-        shutil.rmtree(os.getcwd() + "/tesseract")
+        #shutil.rmtree(os.getcwd() + "/tesseract")
         os.remove(file.name)
 
 
