@@ -4,9 +4,10 @@ from moviepy.editor import *
 from proglog import ProgressBarLogger
 from pytube import YouTube
 from pytube import Playlist
-#import zipfile
+from guesslang import Guess
+import zipfile
 from PIL import Image
-#import shutil
+import shutil
 import requests
 import pytesseract
 import os
@@ -186,6 +187,7 @@ with st.container():
                 video = "video.mp4"
                 Download = YouTube(online_video_File)
                 file_size = int(Download.streams.filter(only_video=True, file_extension='mp4')[0].filesize)
+                st.warning("Getting your video file...." + str(round(file_size / 1048576, 2)) + " MB")
                 r = requests.get(Download.streams.filter(only_video=True, file_extension='mp4')[0].url)
                 st.warning("Downloading your video file...." + str(round(file_size / 1048576, 2)) + " MB")
                 status = st.progress(0)
@@ -234,14 +236,18 @@ with st.container():
     if(file):
         with open(file.name, 'wb') as s:
             s.write(file.read())
-        #with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
-            #T.extractall(path=os.getcwd() + "/tesseract")
-        #pytesseract.pytesseract.tesseract_cmd = "tesseract.exe"
+        with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
+            T.extractall(path=os.getcwd() + "/tesseract")
+        pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
         image = Image.open(file.name)
         txt = pytesseract.image_to_string(image, lang='eng')
+        guess = Guess()
+        prog_lang = guess.language_name(txt)
+        if(prog_lang == "Python" or prog_lang == "python"):
+            prog_lang = "py"
         st.success("Conversion successfull")
-        st.code(txt, language="Python")
-        #shutil.rmtree(os.getcwd() + "/tesseract")
+        st.code(txt,language=prog_lang.lower())
+        shutil.rmtree(os.getcwd() + "/tesseract")
         os.remove(file.name)
 
 

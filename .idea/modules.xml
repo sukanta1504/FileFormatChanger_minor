@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FileFormatChanger.iml" filepath="$PROJECT_DIR$/.idea/FileFormatChanger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/FileFormatChanger_Minor.iml" filepath="$PROJECT_DIR$/.idea/FileFormatChanger_Minor.iml" />
     </modules>
   </component>
 </project>
