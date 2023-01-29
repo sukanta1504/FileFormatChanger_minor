@@ -236,9 +236,9 @@ with st.container():
     if(file):
         with open(file.name, 'wb') as s:
             s.write(file.read())
-        with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
-            T.extractall(path=os.getcwd() + "/tesseract")
-        pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
+        #with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
+             #T.extractall(path=os.getcwd() + "/tesseract")
+        #pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
         image = Image.open(file.name)
         txt = pytesseract.image_to_string(image, lang='eng')
         guess = Guess()
