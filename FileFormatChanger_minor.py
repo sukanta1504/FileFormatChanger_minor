@@ -4,9 +4,8 @@ from moviepy.editor import *
 from proglog import ProgressBarLogger
 from pytube import YouTube
 from pytube import Playlist
-from guesslang import Guess
-import zipfile
 from PIL import Image
+import zipfile
 import shutil
 import requests
 import pytesseract
@@ -236,17 +235,13 @@ with st.container():
     if(file):
         with open(file.name, 'wb') as s:
             s.write(file.read())
-        #with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
-             #T.extractall(path=os.getcwd() + "/tesseract")
-        #pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
+        with zipfile.ZipFile(os.getcwd() + "/Tesseract-OCR.zip", "r") as T:
+             T.extractall(path=os.getcwd() + "/tesseract")
+        pytesseract.pytesseract.tesseract_cmd = "tesseract/tesseract.exe"
         image = Image.open(file.name)
         txt = pytesseract.image_to_string(image, lang='eng')
-        guess = Guess()
-        prog_lang = guess.language_name(txt)
-        if(prog_lang == "Python" or prog_lang == "python"):
-            prog_lang = "py"
         st.success("Conversion successfull")
-        st.code(txt,language=prog_lang.lower())
+        st.code(txt)
         shutil.rmtree(os.getcwd() + "/tesseract")
         os.remove(file.name)
 

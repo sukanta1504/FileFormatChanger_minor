@@ -1,4 +1,3 @@
-guesslang==2.2.1
 moviepy==1.0.3
 Pillow==9.4.0
 proglog==0.1.10
